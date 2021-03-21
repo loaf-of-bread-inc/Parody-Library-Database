@@ -11,7 +11,7 @@
  *  Please don't judge... this is a work in progress.
  *  If you notice any other bugs/iimitations, please feel free to let me know.
  *  And yes, I used documentation comments. I don't even know how these work.
- *  But they're pleasing ot the eyes.
+ *  But they're visually appealing.
  */
 #include <iostream>
 #include <map>
@@ -30,12 +30,27 @@ void set_book ( Book &book, int x, string &request_admin )
         "Ok, what is the title of the book: ",
         "Ok, who is the author: ",
         "Ok, who is the publisher: ",
-        "Ok, what year was it published: "
+        "Ok, what year was it published: ",
+        "Ok, is it available: "
     };
     cout << ph[x];
     cin >> request_admin;
 }
-void execute_set_book ( Book &book , string &request_admin )
+void logic_in_esb ( Book book, regex yes, regex no, string &request_admin)
+{
+    if( regex_search( request_admin, yes) )
+    {
+        book.write_available(true);
+    } else if ( regex_search( request_admin, no ))
+    {
+        book.write_available(false);
+    }else{
+        cout << "Please say yes or no..." << endl;
+        cin >> request_admin;
+        logic_in_esb( book, yes, no, request_admin);
+    }
+}
+void execute_set_book ( Book &book , string &request_admin, regex yes, regex no )
 {
     set_book( book, 0, request_admin );
     book.write_title( request_admin );
@@ -45,6 +60,9 @@ void execute_set_book ( Book &book , string &request_admin )
     book.write_publisher( request_admin );
     set_book( book, 3, request_admin );
     book.write_pubDate( stoi( request_admin ) );
+    set_book( book, 4, request_admin );
+    logic_in_esb( book, yes, no, request_admin );
+    
 }
 void esb_logic( Library lib, Book &book, regex yes, regex no, string &request_admin)
 {
@@ -54,16 +72,17 @@ void esb_logic( Library lib, Book &book, regex yes, regex no, string &request_ad
         admin_access( lib );
     } else if ( regex_search ( request_admin, no ) )
     {
-        execute_set_book( book, request_admin );
+        execute_set_book( book, request_admin, yes, no );
     }
     else
     {
         cout << "Use words...";
+        cin >> request_admin;
         esb_logic( lib, book, yes, no, request_admin );
     }
 }
 
-void admin_access(Library &lib)
+void admin_access( Library &lib )
 {
     auto const yes = regex("^[yY]([eE][sS])?$");
     auto const no = regex("^[nN]([oO][pP][eE])?$");
@@ -100,10 +119,12 @@ void admin_access(Library &lib)
     {
         Book book;
         string request_admin;
-        execute_set_book( book, request_admin );
+        execute_set_book( book, request_admin, yes, no );
         cout << "Ok. is this correct: " << endl;
         book.barf();
         cin >> request_admin;
+        esb_logic( lib, book, yes, no, request_admin );
+        lib.add_book( book );
         
     }else if ( choice == 6 )
     {
@@ -168,9 +189,10 @@ void ops( Library &lib )
     int i;
     vector<string> responses {
         "That's not a valid response...",
-        "T-T", "Choose from your available options..."
+        "T-T",
+        "Choose from your available options..."
     };
-    cout << "What would you like to do today?" << endl << "Here are your options: " << endl;
+    cout << "What would you like to do today?" << endl;
     cout << "1: Check Book Availability \t 2: Join the Waitlist for a Book" << endl;
     cout << "3: Random Shit             \t 4: Create an Account"<< endl;
     cin >> i;

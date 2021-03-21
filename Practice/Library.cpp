@@ -76,7 +76,7 @@ public:
     {
         this->name = name;
     }
-    void add_book ( Book book )
+    void add_book ( Book &book )
     {
         this->books.push_back( book );
         if( book.read_available( ) )
@@ -88,7 +88,7 @@ public:
             u_books.push_back( book );
         }
     }
-    void remove_book( Book book )
+    void remove_book( Book &book )
     {
         vector<Book> ph;
         for( Book x:books )
@@ -114,7 +114,7 @@ public:
             this->a_books = ph;
         }
     }
-    void write_aBooks ( vector<Book> book )
+    void write_aBooks ( vector<Book> &book )
     {
         this->a_books = book;
     }

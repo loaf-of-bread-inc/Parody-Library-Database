@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D769AB6E260136C900C24252 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D769AB6D260136C900C24252 /* main.cpp */; };
+		D7FAA78E260371E400AB8A7C /* Book.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7FAA78C260371E400AB8A7C /* Book.cpp */; };
+		D7FAA79226037BF300AB8A7C /* Library.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7FAA79126037BF300AB8A7C /* Library.cpp */; };
+		D7FAA79526037C6600AB8A7C /* Address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7FAA79426037C6600AB8A7C /* Address.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		D769AB6A260136C900C24252 /* Practice */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Practice; sourceTree = BUILT_PRODUCTS_DIR; };
 		D769AB6D260136C900C24252 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D7FAA78C260371E400AB8A7C /* Book.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Book.cpp; sourceTree = "<group>"; };
+		D7FAA79126037BF300AB8A7C /* Library.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Library.cpp; sourceTree = "<group>"; };
+		D7FAA79426037C6600AB8A7C /* Address.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Address.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				D769AB6D260136C900C24252 /* main.cpp */,
+				D7FAA78C260371E400AB8A7C /* Book.cpp */,
+				D7FAA79126037BF300AB8A7C /* Library.cpp */,
+				D7FAA79426037C6600AB8A7C /* Address.cpp */,
 			);
 			path = Practice;
 			sourceTree = "<group>";
@@ -118,6 +127,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7FAA78E260371E400AB8A7C /* Book.cpp in Sources */,
+				D7FAA79226037BF300AB8A7C /* Library.cpp in Sources */,
+				D7FAA79526037C6600AB8A7C /* Address.cpp in Sources */,
 				D769AB6E260136C900C24252 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

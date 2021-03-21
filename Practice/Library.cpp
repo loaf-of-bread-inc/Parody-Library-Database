@@ -20,19 +20,13 @@ private:
     Address address;
     vector<Book> books;
     vector<Book> a_books;
+    vector<Book> u_books;
 public:
     Library( string name = "", Address address = Address() )
     {
         this->name = name;
         this->address = address;
         this->books = { };
-        for( Book book:this->books )
-        {
-            if( book.read_available( ) == true )
-            {
-                a_books.push_back( book );
-            }
-        }
     }
     string read_name( )
     {
@@ -46,6 +40,10 @@ public:
     {
         return this->a_books;
     }
+    vector<Book> books_unavailable ( )
+    {
+        return this->u_books;
+    }
     string aBooks( )
     {
         string ph;
@@ -56,7 +54,21 @@ public:
             {
                 cout << endl;
             }
-            ph+= x.read_title() + " by " + x.read_author() + "/t";
+            ph+= x.read_title( ) + " by " + x.read_author( ) + "/t";
+        }
+        return ph;
+    }
+    string uBooks( )
+    {
+        string ph;
+        int i = 0;
+        for( Book x:this->u_books )
+        {
+            if( i % 3 == 0)
+            {
+                cout << endl;
+            }
+            ph+= x.read_title( ) + " by " + x.read_author( ) + "\t";
         }
         return ph;
     }
@@ -70,6 +82,10 @@ public:
         if( book.read_available( ) )
         {
             a_books.push_back( book );
+        } else
+        if( !book.read_available( ) )
+        {
+            u_books.push_back( book );
         }
     }
     void remove_book( Book book )

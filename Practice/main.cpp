@@ -4,7 +4,15 @@
 //
 //  Created by Jaden  Andrews  on 3/16/21.
 //
-
+/**
+ *  At this time, the program is limited to one word responses.
+ *  Also, the password is not secure.
+ *  Also, not all the pathways are finished.
+ *  Please don't judge... this is a work in progress.
+ *  If you notice any other bugs/iimitations, please feel free to let me know.
+ *  And yes, I used documentation comments. I don't even know how these work.
+ *  But they're pleasing ot the eyes.
+ */
 #include <iostream>
 #include <map>
 #include <regex>
@@ -14,6 +22,47 @@ using namespace std;
 
 
 void ops( Library &lib );
+void admin_access( Library &lib );
+
+void set_book ( Book &book, int x, string &request_admin )
+{
+    vector<string> ph {
+        "Ok, what is the title of the book: ",
+        "Ok, who is the author: ",
+        "Ok, who is the publisher: ",
+        "Ok, what year was it published: "
+    };
+    cout << ph[x];
+    cin >> request_admin;
+}
+void execute_set_book ( Book &book , string &request_admin )
+{
+    set_book( book, 0, request_admin );
+    book.write_title( request_admin );
+    set_book( book, 1, request_admin );
+    book.write_author( request_admin );
+    set_book( book, 2, request_admin );
+    book.write_publisher( request_admin );
+    set_book( book, 3, request_admin );
+    book.write_pubDate( stoi( request_admin ) );
+}
+void esb_logic( Library lib, Book &book, regex yes, regex no, string &request_admin)
+{
+    if( regex_search( request_admin, yes ) )
+    {
+        cout << "Ok...";
+        admin_access( lib );
+    } else if ( regex_search ( request_admin, no ) )
+    {
+        execute_set_book( book, request_admin );
+    }
+    else
+    {
+        cout << "Use words...";
+        esb_logic( lib, book, yes, no, request_admin );
+    }
+}
+
 void admin_access(Library &lib)
 {
     auto const yes = regex("^[yY]([eE][sS])?$");
@@ -34,7 +83,6 @@ void admin_access(Library &lib)
         
         cin >> libName;
         lib.write_name( libName );
-        
         cout << "Ok. The library is now called " << lib.read_name() << ". Anthing else?" << endl;
         cin >> request_admin;
         if( regex_search( request_admin, yes ) )
@@ -45,8 +93,18 @@ void admin_access(Library &lib)
     } else if( choice == 2 )
     {
         string request_admin;
-        cout << "Ok, where is the library located? " << endl <<
-        "Location: ";
+        cout << "Ok, where is the library located? " << endl
+        << "Location: ";
+    }
+    else if ( choice == 3 )
+    {
+        Book book;
+        string request_admin;
+        execute_set_book( book, request_admin );
+        cout << "Ok. is this correct: " << endl;
+        book.barf();
+        cin >> request_admin;
+        
     }else if ( choice == 6 )
     {
         ops( lib );
@@ -69,7 +127,11 @@ void password( string &psswd, map<string, string> &login, string &usrnm, Library
 void log_in( string &request_admin, map<string, string> &login, string &usrnm, Library &lib )
 {
     int x = rand() % 3;
-    vector<string> responses { "Use english nigga...", "I do not understand...", "That doesn't make sense to me..." };
+    vector<string> responses {
+        "Use english please...",
+        "I do not understand...",
+        "That doesn't make sense to me..."
+    };
     regex const yes = regex("^[yY]([eE][sS])?$");
     regex const no = regex("^[nN]([oO][pP][eE])?$");
     cout << "Are you requesting Admin Access? ";
@@ -104,7 +166,10 @@ string welcome_speech( Library &lib, Address &a )
 void ops( Library &lib )
 {
     int i;
-    vector<string> responses {"That's not a valid response...", "T-T", "Choose from your available options..."};
+    vector<string> responses {
+        "That's not a valid response...",
+        "T-T", "Choose from your available options..."
+    };
     cout << "What would you like to do today?" << endl << "Here are your options: " << endl;
     cout << "1: Check Book Availability \t 2: Join the Waitlist for a Book" << endl;
     cout << "3: Random Shit             \t 4: Create an Account"<< endl;
@@ -143,10 +208,8 @@ int main() {
     if( login.count( usrnm ) )
     {
         log_in( request_admin, login, usrnm, lib );
+    } else{
+        ops( lib );
     }
-    ops( lib );
-    
-    
-    
 }
 

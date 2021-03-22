@@ -4,6 +4,9 @@
 //
 //  Created by Jaden  Andrews  on 3/18/21.
 //
+/**
+ * For 'getBook()', what would you return if there is no book that exists with that name.
+ */
 
 #include <stdio.h>
 #include <vector>
@@ -22,7 +25,7 @@ private:
     vector<Book> a_books;
     vector<Book> u_books;
 public:
-    Library( string name = "", Address address = Address() )
+    Library( string name = "", Address address = Address( ) )
     {
         this->name = name;
         this->address = address;
@@ -54,7 +57,7 @@ public:
             {
                 cout << endl;
             }
-            ph+= x.read_title( ) + " by " + x.read_author( ) + "/t";
+            ph+= x.read_title( ) + " by " + x.read_author( ) + "\t";
         }
         return ph;
     }
@@ -72,6 +75,24 @@ public:
         }
         return ph;
     }
+    
+    Book getBook( Book book )
+    {
+        string book_name = book.read_title( );
+        for( Book x:books )
+        {
+            if( x.read_title( ) == book_name )
+            {
+                return book;
+            }
+        }
+        cout << "There is no book at " << this->name <<" libarary with that name. Please try again..." << endl << "Book Name:";
+
+        cin >> book_name;
+        book.write_title( book_name );
+        return getBook( book );
+    }
+    
     void write_name( string name )
     {
         this->name = name;
@@ -79,11 +100,11 @@ public:
     void add_book ( Book &book )
     {
         this->books.push_back( book );
-        if( book.read_available( ) )
+        if( book.read_available( ) == true )
         {
             a_books.push_back( book );
         } else
-        if( !book.read_available( ) )
+        if( book.read_available( ) == false )
         {
             u_books.push_back( book );
         }
@@ -117,6 +138,10 @@ public:
     void write_aBooks ( vector<Book> &book )
     {
         this->a_books = book;
+    }
+    void write_address ( Address address )
+    {
+        this->address = address;
     }
     
     

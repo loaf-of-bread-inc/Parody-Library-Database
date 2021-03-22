@@ -83,6 +83,10 @@ public:
     
     bool operator==(const Book& ph) const
     {
-        return (title == ph.title) && (author == ph.author);
+        return (this->title == ph.title) && (author == ph.author);
+    }
+    bool operator<(const Book& ph) const
+    {
+        return (this->pubDate < ph.pubDate);
     }
 };
